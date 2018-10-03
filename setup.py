@@ -6,7 +6,7 @@ setup(
   description = 'An wrapper/library/whatever for the kanka.io API.',
   author = 'Poolitzer',
   author_email = 'deadpool10@web.de',
-  url = 'https://github.com/pypa/sampleproject',
+  url = 'https://github.com/Poolitzer/kanka',
   keywords = ['telegraph', 'telegraph-api', 'python-module', 'dreamgraph'],
   classifiers = [
         "Programming Language :: Python :: 3",
