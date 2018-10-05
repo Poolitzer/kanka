@@ -9,4 +9,6 @@ Have a good day.
 
 DISCLAIMER:
 
-This is obviously a dev release. Don't use it now, things won't work lol.
+This is obviously a dev release. Don't use it until you know what you do.
+
+Feel free to use it though, everything what currently can work will work and yeah. A documentation will be here once the kanka API has one and I know what should be here.

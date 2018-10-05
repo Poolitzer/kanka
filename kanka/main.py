@@ -953,3 +953,267 @@ def create_section(campaign_id, name, private=None, section=None, entry=None, ki
         return error(requests.post(url, data=data, files=image, headers=headers))
     else:
         return error(requests.post(url, data=data, headers=headers))
+
+
+def update_section(campaign_id, section_id, name=None, private=None, section=None, entry=None, kind=None,
+                   character=None, image=None):
+    url = _url('/campaigns/{}/sections/{}').format(campaign_id, section_id)
+    if name:
+        data = {
+            'name': name,
+            'is_private': private,
+            'section_id': section,
+            'entry': entry,
+            'character_id': character,
+            'type': kind
+        }
+    else:
+        temp = get_section(campaign_id, section_id)
+        data = {
+            'name': temp["data"]["name"],
+            'is_private': private,
+            'section_id': section,
+            'entry': entry,
+            'character_id': character,
+            'type': kind
+        }
+    if image:
+        image = {'picture': open('{}'.format(image), 'rb')}
+        return error(requests.put(url, data=data, files=image, headers=headers))
+    else:
+        return error(requests.put(url, data=data, headers=headers))
+
+
+def delete_section(campaign_id, section_id):
+    url = _url('/campaigns/{}/sections/{}').format(campaign_id, section_id)
+    data = {
+        'name': 'random',
+    }
+    return error(requests.delete(url, json=data, headers=headers))
+
+
+def get_entity_attributes(campaign_id, entity_id):
+    url = _url('/campaigns/{}/entities/{}/attributes').format(campaign_id, entity_id)
+    return error(requests.get(url, headers=headers))
+
+
+def get_entity_attribute(campaign_id, entity_id, attribute_id):
+    url = _url('/campaigns/{}/entities/{}/attributes/{}').format(campaign_id, entity_id, attribute_id)
+    return error(requests.get(url, headers=headers))
+
+
+def create_entity_attribute(campaign_id, entity_id, name, value=None, default_order=None, private=None):
+    url = _url('/campaigns/{}/entities/{}/attributes').format(campaign_id, entity_id)
+    data = {
+        'entity_id': entity_id,
+        'name': name,
+        'value': value,
+        'default_order': default_order,
+        'is_private': private
+    }
+    return error(requests.post(url, data=data, headers=headers))
+
+
+def update_entity_attribute(campaign_id, entity_id, attribute_id, name=None, value=None, default_order=None,
+                            private=None):
+    url = _url('/campaigns/{}/entities/{}/attributes/{}').format(campaign_id, entity_id, attribute_id)
+    if name:
+        data = {
+            'entity_id': entity_id,
+            'name': name,
+            'value': value,
+            'default_order': default_order,
+            'is_private': private
+        }
+    else:
+        temp = get_entity_attribute(campaign_id, entity_id, attribute_id)
+        data = {
+            'entity_id': entity_id,
+            'name': temp["data"]["name"],
+            'value': value,
+            'default_order': default_order,
+            'is_private': private
+        }
+    return error(requests.post(url, data=data, headers=headers))
+
+
+def delete_entity_attribute(campaign_id, entity_id, attribute_id):
+    url = _url('/campaigns/{}/entities/{}/attributes/{}').format(campaign_id, entity_id, attribute_id)
+    data = {
+        'name': 'random',
+    }
+    return error(requests.delete(url, json=data, headers=headers))
+
+
+def get_entity_notes(campaign_id, entity_id):
+    url = _url('/campaigns/{}/entities/{}/entity_notes').format(campaign_id, entity_id)
+    return error(requests.get(url, headers=headers))
+
+
+def get_entity_note(campaign_id, entity_id, entity_note_id):
+    url = _url('/campaigns/{}/entities/{}/entity_notes/{}').format(campaign_id, entity_id, entity_note_id)
+    return error(requests.get(url, headers=headers))
+
+
+def create_entity_note(campaign_id, entity_id, name, entry=None, private=None):
+    url = _url('/campaigns/{}/entities/{}/entity_notes').format(campaign_id, entity_id)
+    data = {
+        'entity_id': entity_id,
+        'name': name,
+        'entry': entry,
+        'is_private': private
+    }
+    return error(requests.post(url, data=data, headers=headers))
+
+
+def update_entity_note(campaign_id, entity_id, entity_note_id, name=None, entry=None, private=None):
+    url = _url('/campaigns/{}/entities/{}/entity_notes/{}').format(campaign_id, entity_id, entity_note_id)
+    if name:
+        data = {
+            'entity_id': entity_id,
+            'name': name,
+            'entry': entry,
+            'is_private': private
+        }
+    else:
+        temp = get_entity_note(campaign_id, entity_id, entity_note_id)
+        data = {
+            'entity_id': entity_id,
+            'name': temp["data"]["name"],
+            'entry': entry,
+            'is_private': private
+        }
+    return error(requests.post(url, data=data, headers=headers))
+
+
+def delete_entity_note(campaign_id, entity_id, entity_note_id):
+    url = _url('/campaigns/{}/entities/{}/entity_notes/{}').format(campaign_id, entity_id, entity_note_id)
+    data = {
+        'name': 'random',
+    }
+    return error(requests.delete(url, json=data, headers=headers))
+
+
+def get_entity_events(campaign_id, entity_id):
+    url = _url('/campaigns/{}/entities/{}/entity_events').format(campaign_id, entity_id)
+    return error(requests.get(url, headers=headers))
+
+
+def get_entity_event(campaign_id, entity_id, entity_event_id):
+    url = _url('/campaigns/{}/entities/{}/entity_events/{}').format(campaign_id, entity_id, entity_event_id)
+    return error(requests.get(url, headers=headers))
+
+
+# Todo, API says no :D
+def create_entity_event(campaign_id, entity_id, name, date, length, entry=None, default_order=None, private=None):
+    url = _url('/campaigns/{}/entities/{}/entity_events').format(campaign_id, entity_id)
+    data = {
+        'entity_id': entity_id,
+        'name': name,
+        'date': date,
+        'length': length,
+        'entry': entry,
+        'default_order': default_order,
+        'is_private': private
+    }
+    return error(requests.post(url, data=data, headers=headers))
+
+
+def delete_entity_event(campaign_id, entity_id, entity_event_id):
+    url = _url('/campaigns/{}/entities/{}/entity_events/{}').format(campaign_id, entity_id, entity_event_id)
+    data = {
+        'name': 'random',
+        'date': 'gibberish',
+        'length': '1'
+    }
+    return error(requests.delete(url, json=data, headers=headers))
+
+
+def get_entity_relations(campaign_id, entity_id):
+    url = _url('/campaigns/{}/entities/{}/relations').format(campaign_id, entity_id)
+    return error(requests.get(url, headers=headers))
+
+
+def get_entity_relation(campaign_id, entity_id, relation_id):
+    url = _url('/campaigns/{}/entities/{}/relations/{}').format(campaign_id, entity_id, relation_id)
+    return error(requests.get(url, headers=headers))
+
+
+def create_entity_relation(campaign_id, entity_id, owner_id, target_id, relation, private=None, ):
+    url = _url('/campaigns/{}/entities/{}/relations').format(campaign_id, entity_id)
+    data = {
+        "owner_id": owner_id,
+        "target_id": target_id,
+        "relation": relation,
+        'is_private': private
+    }
+    return error(requests.post(url, data=data, headers=headers))
+
+
+def update_entity_relation(campaign_id, entity_id, relation_id, owner_id=None, target_id=None, relation=None,
+                           private=None):
+    url = _url('/campaigns/{}/entities/{}/relations/{}').format(campaign_id, entity_id, relation_id)
+    if owner_id and target_id and relation:
+        data = {
+            "owner_id": owner_id,
+            "target_id": target_id,
+            "relation": relation,
+            'is_private': private
+        }
+    elif owner_id and target_id:
+        temp = get_entity_relation(campaign_id, entity_id, relation_id)
+        data = {
+            "owner_id": owner_id,
+            "target_id": target_id,
+            "relation": temp["data"]["relation"],
+            'is_private': private
+        }
+    elif owner_id and relation:
+        temp = get_entity_relation(campaign_id, entity_id, relation_id)
+        data = {
+            "owner_id": owner_id,
+            "target_id": temp["data"]["target_id"],
+            "relation": relation,
+            'is_private': private
+        }
+    elif target_id and relation:
+        temp = get_entity_relation(campaign_id, entity_id, relation_id)
+        data = {
+            "owner_id": temp["data"]["owner_id"],
+            "target_id": target_id,
+            "relation": relation,
+            'is_private': private
+        }
+    elif owner_id:
+        temp = get_entity_relation(campaign_id, entity_id, relation_id)
+        data = {
+            "owner_id": owner_id,
+            "target_id": temp["data"]["target_id"],
+            "relation": temp["data"]["relation"],
+            'is_private': private
+        }
+    elif target_id:
+        temp = get_entity_relation(campaign_id, entity_id, relation_id)
+        data = {
+            "owner_id": temp["data"]["owner_id"],
+            "target_id": target_id,
+            "relation": temp["data"]["relation"],
+            'is_private': private
+        }
+    elif relation:
+        temp = get_entity_relation(campaign_id, entity_id, relation_id)
+        data = {
+            "owner_id": temp["data"]["owner_id"],
+            "target_id": temp["data"]["target_id"],
+            "relation": relation,
+            'is_private': private
+        }
+    else:
+        temp = get_entity_relation(campaign_id, entity_id, relation_id)
+        data = {
+            "owner_id": temp["data"]["owner_id"],
+            "target_id": temp["data"]["target_id"],
+            "relation": temp["data"]["relation"],
+            'is_private': private
+        }
+    return error(requests.post(url, data=data, headers=headers))
