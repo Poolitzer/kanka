@@ -39,7 +39,7 @@ def login(token):
 
 
 def get_campaigns():
-    url = _url('/campaigns/')
+    url = _url('/campaigns')
     return error(requests.get(url, headers=headers))
 
 
