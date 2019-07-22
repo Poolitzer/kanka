@@ -34,6 +34,6 @@ def _url(path):
     return 'https://kanka.io/api/1.0/' + path
 
 
-def get(endpoint):
+def _get(endpoint):
     url = _url(endpoint)
-    return _work_with_response(requests.get(url, headers=headers))["data"]
+    return _work_with_response(requests.get(url, headers=headers))
