@@ -1,14 +1,21 @@
 import requests
+import json
+from datetime import datetime as _datetime
 from kanka.error import APIError, Unauthorized
+import os
 
 headers = {'Authorization': 'None', 'Accept': 'application/json'}
+sync = False
 
 
-def login(token):
+def login(token, sync_enable=False):
     global headers
     headers = {
         'Authorization': f'Bearer {token}',
         'Accept': 'application/json'}
+    if sync_enable:
+        global sync
+        sync = True
 
 
 def _work_with_response(resp):
@@ -36,4 +43,27 @@ def _url(path):
 
 def _get(endpoint):
     url = _url(endpoint)
-    return _work_with_response(requests.get(url, headers=headers))
+    params = {}
+    if sync:
+        params = _synchronisation(endpoint)
+    return _work_with_response(requests.get(url, headers=headers, params=params))
+
+
+def _synchronisation(path):
+    time = _datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    try:
+        db = json.load(open(f"{dir_path}/sync.json"))
+    except FileNotFoundError:
+        # first time using any method
+        db = {}
+    try:
+        last_time = db[path]
+        db[path] = time
+    except KeyError:
+        # first time using this method
+        db[path] = time
+        last_time = ""
+    with open(f"{dir_path}/sync.json", "w") as outfile:
+        json.dump(db, outfile, indent=4, sort_keys=True)
+    return {"lastSync": last_time}
