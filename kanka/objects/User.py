@@ -1,4 +1,4 @@
-from kanka.objects import KankaObject
+from kanka.objects.base import KankaObject
 
 
 class User(KankaObject):

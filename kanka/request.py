@@ -33,7 +33,7 @@ def _work_with_response(resp):
         else:
             # This means something went wrong.
             raise APIError('Something went wrong. Head over to Discord if you need more help. '
-                           'The error code is {}.\n{}.'.format(resp.status_code, resp.json()))
+                           'The error code is {}.\n{}.'.format(resp.status_code, resp.text))
     return resp.json()
 
 
@@ -41,12 +41,18 @@ def _url(path):
     return 'https://kanka.io/api/1.0/' + path
 
 
-def _get(endpoint):
+def _get(endpoint, params=None):
+    if params is None:
+        params = {}
     url = _url(endpoint)
-    params = {}
     if sync:
-        params = _synchronisation(endpoint)
+        params["lastSync"] = _synchronisation(endpoint)
     return _work_with_response(requests.get(url, headers=headers, params=params))
+
+
+def _post(endpoint, params, files):
+    url = _url(endpoint)
+    return _work_with_response(requests.post(url, headers=headers, data=params, files=files))
 
 
 def _synchronisation(path):
@@ -66,4 +72,4 @@ def _synchronisation(path):
         last_time = ""
     with open(f"{dir_path}/sync.json", "w") as outfile:
         json.dump(db, outfile, indent=4, sort_keys=True)
-    return {"lastSync": last_time}
+    return last_time

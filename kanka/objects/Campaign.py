@@ -1,4 +1,5 @@
-from kanka.objects import KankaObject, Members
+from kanka.objects.base import KankaObject
+from kanka.objects import Members
 from kanka.utils.helpers import time_converter
 
 
