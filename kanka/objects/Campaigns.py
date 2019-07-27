@@ -1,4 +1,5 @@
-from kanka.objects import KankaObject, Campaign
+from kanka.objects.base import KankaObject
+from kanka.objects import Campaign
 from kanka.utils.helpers import time_converter
 from typing import List as _List
 
