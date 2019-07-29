@@ -11,6 +11,7 @@ class Character(Entity):
         name  (:obj:`str`): Required. Name of the character
         title  (:obj:`str`): Title of the character
         age  (:obj:`str`): Age of the character
+        sex  (:obj:`str`): Gender of the character
         character_type  (:obj:`str`): Type of the character. Type (as used in the API= is a reserved word in python, we
         use character_type instead
         family_id  (:obj:`int`): Family id
@@ -56,7 +57,8 @@ class Character(Entity):
             self.race_id = int(race_id)
         else:
             self.race_id = None
-        self.is_dead = bool(is_dead)
+        if is_dead:
+            self.is_dead = 1
         if isinstance(image, io.BufferedReader):
             self.image = image
         else:

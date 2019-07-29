@@ -42,7 +42,8 @@ class Entity(KankaObject):
         self.image = str(image_path)
         self.image_full = str(image_full)
         self.image_thumb = str(image_thumb)
-        self.is_private = bool(is_private)
+        if is_private:
+            self.is_private = 1
         if entity_id:
             self.entity_id = int(entity_id)
         else:
