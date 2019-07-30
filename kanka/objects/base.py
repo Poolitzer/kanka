@@ -26,9 +26,9 @@ class Entity(KankaObject):
         tags  (_List[int]): An array of tags that the object is related to.
         created_at (:obj:`datetime.datetime`): This value returns a datetime object for the time this campaign was
         created_by  (:obj:`int`): The :class:`kanka.objects.User`'s id who created the object.
-        updated_at (:obj:`datetime.datetime`):  This value returns a datetime object for the time this campaign was
+        updated_at (:class:`datetime.datetime`):  This value returns a datetime object for the time this campaign was
         last updated.
-        updated_by  (:ob:`int`): The :class:`kanka.objects.User`'s id who last updated the object.
+        updated_by  (:class:`int`): The :class:`kanka.objects.User`'s id who last updated the object.
 
     """
     def __init__(self, object_id=0, name="", entry="", image_path="", image_full="", image_thumb="", is_private=False,
@@ -42,8 +42,7 @@ class Entity(KankaObject):
         self.image = str(image_path)
         self.image_full = str(image_full)
         self.image_thumb = str(image_thumb)
-        if is_private:
-            self.is_private = 1
+        self.is_private = bool(is_private)
         if entity_id:
             self.entity_id = int(entity_id)
         else:
@@ -67,3 +66,9 @@ class Entity(KankaObject):
             self.updated_by = int(updated_by)
         else:
             self.updated_by = None
+
+
+class Related(KankaObject):
+    """Base class with related attributes, used when the user requests related objects"""
+    def __init__(self, ):
+        print("yeah")

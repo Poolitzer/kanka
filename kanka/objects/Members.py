@@ -8,7 +8,7 @@ class Members(KankaObject):
     """This object represents a Kanka member list. There is no way to create a member list with the API (yet).
         Attributes:
             members (_List[:class:`kanka.objects.User`]): Returns a list of User objects
-            sync (:obj:`datetime.datetime`): A datetime object of the last time this object was changed.
+            sync (:class:`datetime.datetime`): A datetime object of the last time this object was changed.
             The library deals with it, but its there for convenience.
     """
     def __init__(self, members: dict, sync: dict):

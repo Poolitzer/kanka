@@ -32,7 +32,7 @@ class Character(Entity):
         *["Curly black", "Light Green"]*
     These are the ones you can define. If you get a character from the server, there are more which you can find in
     the documentation of :class:`kanka.objects.base.Entity`.
-
+    Also note that there is the (:class:`Traits`) which get returned from the server.
     """
     def __init__(self, name: str, entry="", title="", age="", sex="", character_type="", family_id=0, location_id=0,
                  race_id=0, tags=None, is_dead=False, is_private=False, image=False, image_url="",
@@ -57,8 +57,7 @@ class Character(Entity):
             self.race_id = int(race_id)
         else:
             self.race_id = None
-        if is_dead:
-            self.is_dead = 1
+        self.is_dead = bool(is_dead)
         if isinstance(image, io.BufferedReader):
             self.image = image
         else:
@@ -92,7 +91,12 @@ class Character(Entity):
 
 
 class Traits(KankaObject):
-    """This object represents traits and it's sync attribute"""
+    """This object represents traits and it's sync attribute
+    Attributes:
+        traits  (_List[:class:`Trait`]): Array of Trait objects
+        sync  (:class:`datetime.datetime``): A datetime object of the last time this object was changed.
+            The library deals with it, but its there for convenience.
+    """
     def __init__(self, traits, sync):
         temp = []
         for trait in traits:
@@ -103,11 +107,19 @@ class Traits(KankaObject):
 
 
 class Trait(KankaObject):
-    """This object represents a trait"""
+    """This object represents a trait, returned by the server for the character.
+    Attributes:
+        trait_id  (int): The id of the trait. *Note*: id is a reserved word in python, we use trait_id instead.
+        name  (str): The name of the trait.
+        entry  (str): The entry of the trait.
+        section  (str): The section of the trait. Currently either *personality* or *appearance*.
+        is_private  (bool): If the trait is private for everyone who isn't the owner or admin
+        default_order  (int): No fucking clue how this works.
+    """
     def __init__(self, trait_id, name, entry, section, is_private, default_order):
-        self.id = int(trait_id)
+        self.trait_id = int(trait_id)
         self.name = str(name)
         self.entry = str(entry)
         self.section = str(section)
         self.is_private = bool(is_private)
-        self.default_order = default_order
+        self.default_order = int(default_order)

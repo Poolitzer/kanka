@@ -52,6 +52,12 @@ def _get(endpoint, params=None):
 
 def _post(endpoint, params, files):
     url = _url(endpoint)
+    for key, value in params.items():
+        if isinstance(value, bool):
+            if value:
+                params[key] = 1
+            else:
+                params[key] = 0
     return _work_with_response(requests.post(url, headers=headers, data=params, files=files))
 
 

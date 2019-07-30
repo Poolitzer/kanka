@@ -69,4 +69,6 @@ def create_character(campaign_id: int, character: _Character):
         image = {"image": character.image}
         del params["image"]
         character = _post(f"campaigns/{int(campaign_id)}/characters", params, image)
+    else:
+        character = _post(f"campaigns/{int(campaign_id)}/characters", params, None)
     return character
