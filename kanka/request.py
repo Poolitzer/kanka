@@ -52,13 +52,15 @@ def _get(endpoint, params=None):
 
 def _post(endpoint, params, files):
     url = _url(endpoint)
-    for key, value in params.items():
+    for key, value in list(params.items()):
         if isinstance(value, bool):
             if value:
                 params[key] = 1
             else:
                 params[key] = 0
-    return _work_with_response(requests.post(url, headers=headers, data=params, files=files))
+        elif value is None:
+            del params[key]
+    return _work_with_response(requests.post(url, headers=headers, json=params, files=files))
 
 
 def _synchronisation(path):
